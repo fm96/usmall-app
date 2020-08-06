@@ -1,0 +1,28 @@
+.login .am-navbar{
+    background: #FF9900;
+}
+/* 表单 */
+.login .form{
+    background: #fff;
+    padding: 2rem .5rem;
+}
+.login .form div{
+    height: 1rem;
+    border-bottom: .02rem solid #666;
+    line-height: 1rem;
+}
+.login .form span{
+    display: block;
+    height: .8rem;
+    line-height: .8rem;
+    text-align: right;
+}
+/* 按钮 */
+.login .form button{
+    width: 100%;
+    height: 1rem;
+    background: #FF9900;
+    border-radius: .15rem;
+    color: #fff;
+    font-size: .38rem;
+}
