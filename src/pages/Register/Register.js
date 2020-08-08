@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import { NavBar } from 'antd-mobile';
+import { requestRegister } from '../../util/request'
+import Alert from '../../util/alert'
+import GoBack from '../../components/GoBack'
 // 样式
 import './Register.css'
 export default class Register extends Component {
@@ -23,9 +26,31 @@ export default class Register extends Component {
         })
         // console.log(key)
     }
+    // 清空
+    empty() {
+        this.setState({
+            user: {
+                phone: '',
+                nickname: '',
+                password: ''
+            }
+        })
+    }
     // 注册
     register() {
-        console.log(this.state.user)
+        // 发起请求
+        requestRegister(this.state.user).then(res => {
+            if (res.data.code === 200) {
+                // 弹框
+                Alert(res.data.msg);
+                // 清空
+                this.empty();
+                // 跳转页面
+
+            } else {
+                Alert(res.data.msg);
+            }
+        })
     }
     render() {
         let { user } = this.state
@@ -35,7 +60,7 @@ export default class Register extends Component {
                 {/* 头部导航 */}
                 <NavBar
                     mode="dark"
-                    leftContent='返回'
+                    leftContent={<GoBack></GoBack>}
                 >注册</NavBar>
                 {/* 表单输入框 */}
                 <div className='form'>

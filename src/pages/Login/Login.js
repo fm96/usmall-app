@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { NavBar } from 'antd-mobile';
+import {requestLogin} from '../../util/request'
+import {Link} from 'react-router-dom'
 // 样式
 import './Login.css'
 export default class Login extends Component {
@@ -23,7 +25,14 @@ export default class Login extends Component {
         // console.log(key)
     }
     login() {
-        console.log(this.state.user)
+        // 发起请求
+        requestLogin(this.state.user).then(res=>{
+                if(res.data.code===200){
+
+                }else{
+                    alert(res.data.msg)
+                }
+        })
     }
     render() {
         let { user } = this.state
@@ -33,7 +42,7 @@ export default class Login extends Component {
                 <NavBar
                     mode="dark"
                     rightContent={
-                        <span>注册</span>
+                        <Link to='/register'>注册</Link>
                     }
                 >登录</NavBar>
                 {/* 表单输入框 */}

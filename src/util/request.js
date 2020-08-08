@@ -2,7 +2,7 @@ import axios from 'axios'
 import qs from 'qs'
 // 响应拦截
 axios.interceptors.response.use(res=>{
-    console.group('本次拦截的地址：'+res.url)
+    console.group('本次拦截的地址：'+res.config.url)
     console.log(res)
     console.groupEnd()
     return res
@@ -12,7 +12,7 @@ export const requestLogin=(params)=>{
     return axios({
         url:'/api/login',
         method:'post',
-        data:qs.stringfiy(params)
+        data:qs.stringify(params)
     })
 }
 // 注册
@@ -20,7 +20,7 @@ export const requestRegister=(params)=>{
     return axios({
         url:'/api/register',
         method:'post',
-        data:qs.stringfiy(params)
+        data:qs.stringify(params)
     })
 }
 // 获取分类信息
