@@ -7,6 +7,7 @@ import Mine from '../Mine/Mine'
 import Footer from '../../components/Footer'
 export default function Index() {
     return (
+        
         <div>
             <Switch>
                 <Route path='/index/home' component={Home}></Route>
