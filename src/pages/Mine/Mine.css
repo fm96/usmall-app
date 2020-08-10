@@ -1,5 +1,6 @@
 
 .mine .am-navbar{
+    background: #FF9900;
     height: 3rem;
 }
 .mine .am-navbar-left,.mine .am-navbar-title,.mine .am-navbar-right{
@@ -10,7 +11,7 @@
 .mine .icon{
     position: relative;
     height: 3rem;
-    /* background: #fff; */
+    background: #fff;
 }
 .mine .icon .img{
     position: absolute;
@@ -34,4 +35,39 @@
     position: absolute;
     bottom: .3rem;
     left: .2rem;
+}
+.mine .order{
+    margin-top: .2rem;
+    background: #fff;
+}
+.mine .order p{
+    line-height: 1.5rem;
+    border-bottom: .01rem solid #333;
+    overflow: hidden;
+}
+.mine .order p span{
+    margin-left: .6rem;
+}
+.mine .order p a{
+    float: right;
+    color: #999;
+}
+.mine .order ul{
+    display: flex;
+}
+.mine .order ul li{
+    flex: 1;
+    text-align: center;
+    padding: .3rem 0;
+}
+.mine .order ul li span{
+    display: block;
+    line-height: .6rem;
+    font-size: .24rem;
+}
+.mine .addr{
+    margin: .2rem 0;
+    line-height: 2rem;
+    background: #fff;
+    text-align: center;
 }

@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { NavBar } from 'antd-mobile';
 import {requestLogin} from '../../util/request'
-import {Link} from 'react-router-dom'
+import {Link,withRouter} from 'react-router-dom'
 // 样式
 import './Login.css'
-export default class Login extends Component {
+class Login extends Component {
     constructor() {
         super();
         this.state = {
@@ -28,7 +28,9 @@ export default class Login extends Component {
         // 发起请求
         requestLogin(this.state.user).then(res=>{
                 if(res.data.code===200){
-
+                    // 设置标记
+                    sessionStorage.setItem('isLogin',JSON.stringify(res.data.list))
+                    this.props.history.push('/index')
                 }else{
                     alert(res.data.msg)
                 }
@@ -57,3 +59,5 @@ export default class Login extends Component {
         )
     }
 }
+
+export default withRouter(Login)

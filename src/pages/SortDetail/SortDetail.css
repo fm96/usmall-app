@@ -1,0 +1,41 @@
+.sortdetail{
+    background: #fff;
+}
+.sortdetail .am-navbar{
+    background: #FF9900;
+}
+/* 列表 */
+.sortdetail .list{
+    width: 100vw;
+    display: flex;
+    margin-top: .2rem;
+    margin-bottom: .2rem;
+    padding-left: .2rem;
+}
+.sortdetail .list img{
+    width: 2rem;
+    border-radius: .2rem;
+}
+.sortdetail .list .right{
+    flex: 1;
+    padding-left: .4rem;
+}
+.sortdetail .list .right h3{
+    font-size: .4rem;
+    color: #333;
+    line-height: .8rem;
+}
+.sortdetail .list .right span{
+    display: block;
+    font-size: .4rem;
+    color: #E23838;
+    margin-top: .3rem;
+}
+.sortdetail .list .right button{
+    width: 1.8rem;
+    height: .7rem;
+    border-radius: .2rem;
+    background: #FF9900;
+    color: #fff;
+    margin-top: .1rem;
+}

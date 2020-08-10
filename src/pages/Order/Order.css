@@ -1,0 +1,50 @@
+.order .am-navbar{
+    background: #FF9900;
+}
+/* 内容 */
+.order .content{
+width: 100vw;
+}
+.order .content .con h3{
+line-height: 1rem;
+color: #999;
+}
+.order .content .con h3 img{
+    margin: 0 .2rem;
+}
+.order .content .con .flex{
+    display: flex;
+}
+/* 左边 */
+.order .content .con .flex .left{
+    width: 2.5rem;
+    padding-left:.2rem ;
+    padding-top: .25rem;
+}
+.order .content .con .flex .left .img{
+    width: 1.6rem;
+    margin-left: .2rem;
+}
+/* 右边 */
+.order .content .con .flex .right{
+    flex: 1;
+}
+.order .content .con .flex .right h2{
+    line-height: .5rem;
+}
+.order .content .con .flex .right span{
+    display: block;
+    text-align: right;
+    padding-right: .4rem;
+}
+
+.order .content .con .flex .right .btn button,.order .content .con .flex .right .btn i{
+    width: .8rem;
+    height: .6rem;
+    border: .01rem solid #ccc;
+    padding: .1rem;
+    background: #fff;
+}
+.order .content .con .flex .right p{
+    line-height: .6rem;
+}

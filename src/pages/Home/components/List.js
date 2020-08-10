@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 // 过滤器
 import filterPrice from '../../../filters/Filter'
-import img from '../../../assets/img/food.png'
 import { connect } from 'react-redux'
+import {withRouter} from 'react-router-dom'
 import { goodsList, requestGoodsList } from '../../../store'
 class List extends Component {
     componentDidMount() {
         this.props.requestGoods()
 
+    }
+    getId(id){
+        this.props.history.push('/goodsdetail?id='+id)
     }
     render() {
         const { goodsList } = this.props
@@ -15,7 +18,7 @@ class List extends Component {
             <div>
                 {
                     goodsList.map((item) => {
-                        return <div className='list' key={item.id}>
+                        return <div className='list' key={item.id} onClick={()=>this.getId(item.id)}>
                             <img src={this.$imgUrl + item.img} alt="" />
                             <div className='right'>
                                 <h3>{item.goodsname}</h3>
@@ -43,4 +46,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(List)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(List))

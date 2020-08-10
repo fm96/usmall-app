@@ -1,0 +1,125 @@
+.goodsdetail .am-navbar{
+    background: #FF9900;
+}
+.goodsdetail .con{
+    width: 100vw;
+}
+.goodsdetail .con img{
+    width: 100%;
+    height: 4rem;
+}
+.goodsdetail .con .info{
+    background: #fff;
+}
+.goodsdetail .con .info h3{
+    line-height: 1rem;
+    overflow: hidden;
+}
+.goodsdetail .con .info h3 span{
+margin-left: .4rem;
+font-size: .4rem;
+/* font-weight: bold; */
+}
+.goodsdetail .con .info h3 a{
+    line-height: .5rem;
+    float: right;
+    text-align: center;
+    margin-right: .4rem;
+    margin-top: .1rem;
+    padding: 0 .1rem;
+    border-left: .01rem solid #ccc;
+    color: #E23838;
+}
+.goodsdetail .con .info h3 a img{
+    display: block;
+    width: .4rem;
+    height: .4rem;
+
+}
+/* 价格 */
+.goodsdetail .con .info .price{
+    display: flex;
+    margin-left: .4rem;
+}
+.goodsdetail .con .info .price .left span{
+    display:block;
+    padding: .1rem;
+    color: #E23838;
+    font-size: .4rem;
+}
+.goodsdetail .con .info .price .left .col{
+    color: #666;
+    text-decoration: line-through;
+    font-size: .3rem;
+}
+.goodsdetail .con .info .price .right span{
+  border: .01rem solid #FF9900;
+  padding: .1rem;
+  color: #FF9900;
+  margin-left: .1rem;
+}
+/* 图片 */
+.goodsdetail .img{
+ width: 100vw;
+ margin-top: .2rem;
+ margin-bottom: .8rem;
+}
+.goodsdetail .img img{
+    width: 100%;
+}
+/* 加入购物车 */
+.goodsdetail footer{
+width: 100vw;
+position: fixed;
+left: 0;
+bottom: 0;
+background: #fff;
+line-height: .8rem;
+border-top: .01rem solid #ccc;
+overflow: hidden;
+}
+.goodsdetail footer a{
+    float: right;
+    background: #FF9900;
+    color: #fff;
+    padding: 0 .2rem;
+}
+/* 弹框 */
+.goodsdetail .popup-list .am-list-body {
+    height: 210px;
+    overflow: auto;
+  }
+
+.am-list-header .title{
+      display: flex;
+  }
+.am-list-header .title img{
+      width: 2rem;
+      height: 2rem;
+      border-radius: .2rem;
+  }
+  .am-list-header .title h3{
+      font-size: .4rem;
+      color: #333;
+      margin-left: .3rem;
+  }
+ .am-list-item .am-list-content {
+      font-weight: bold;
+  }
+  .am-list-item .am-list-content .spec{
+      font-weight: normal;
+      color: #666;
+      border: .01rem solid #ccc;
+      padding: .1rem;
+      margin-right: .1rem;
+  }
+  .am-list-item .am-list-content .spec:hover{
+    color: #FF9900;
+    border-color: #FF9900;
+  }
+  .am-list-item .am-list-content .btn{
+      background: #FF9900;
+      color: #fff;
+      padding: .1rem;
+      margin-left: 2rem;
+  } 

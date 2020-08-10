@@ -1,13 +1,14 @@
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
-import { requestBanner, requestGoods,requestCate,requestGoodsCate } from '../util/request'
+import Alert from '../util/alert'
+import { requestBanner, requestGoods, requestGoodsInfo, requestGoodsCate, requestCateTree,addCart } from '../util/request'
 /* 初始状态 */
 const initState = {
     bannerList: [],//轮播图列表
     goodsList: [],//商品列表
-    sortList:[],//分类列表
-    sortGoodsList:[],//分类商品
-    id:2,
+    sortList: [],//分类列表
+    sortDetail: [],//分类商品
+    goodsDetail: {},
 }
 
 /* dispatch */
@@ -27,27 +28,27 @@ const changeGoodsActions = (arr) => {
     }
 }
 // 分类信息
-const changeSortAction=(arr)=>{
+const changeSortAction = (arr) => {
     return {
-        type:'changeSort',
-        list:arr
+        type: 'changeSort',
+        list: arr
     }
 }
-// 分类商品
-const changeSortGoodsAction=(arr)=>{
-    return{
-        type:'changeSortGoods',
-        list:arr
+// 分类详情
+const changeSortDetailAction = (arr) => {
+    return {
+        type: 'changeSortDetail',
+        list: arr
     }
 }
-// id
-export const changeIdAction=(id)=>{
-    console.log('===changeIdAction====',id)
-    return{
-        type:'getId',
-        id:id
+// 商品详情
+const changeGoodsDetailAction = (obj) => {
+    return {
+        type: 'changeGoodsDetail',
+        obj: obj
     }
 }
+
 
 /* 发起请求 */
 
@@ -78,29 +79,48 @@ export const requestGoodsList = () => {
     }
 }
 // 分类列表
-export const requestSortList=()=>{
-    return (dispatch,getState)=>{
-        const {sortList} =getState();
-        if(sortList.length>0){
+export const requestSortList = () => {
+    return (dispatch, getState) => {
+        const { sortList } = getState();
+        if (sortList.length > 0) {
             return;
         }
         // 请求
-        requestCate().then(res=>{
+        requestCateTree().then(res => {
             dispatch(changeSortAction(res.data.list))
         })
     }
 }
-// 分类商品
-export const requestSortGoodsList=()=>{
-    return (dispatch,getState)=>{
-        const {sortGoodsList,id}=getState();
-        console.log(id)
-        if(sortGoodsList.length>0){
+// 分类详情
+export const requestSortDetailList = (id) => {
+    return (dispatch) => {
+        /* if(id===getState().sortDetail.id){
             return;
-        }
+        } */
         // 请求
-        requestGoodsCate({fid:id}).then(res=>{
-            dispatch(changeSortGoodsAction(res.data.list))
+        requestGoodsCate({ fid: id }).then(res => {
+            dispatch(changeSortDetailAction(res.data.list))
+        })
+    }
+}
+// 商品详情
+export const requestGoodsDetail = (id) => {
+    return (dispatch) => {
+        // 请求
+        requestGoodsInfo({id:id}).then(res => {
+            dispatch(changeGoodsDetailAction(res.data.list[0]))
+        })
+    }
+}
+// 加入购物车
+export const requestAddCart=(obj,modal)=>{
+    return ()=>{
+        addCart(obj).then(res=>{
+            if(res.data.code===200){
+                Alert(res.data.msg)
+            }else{
+                Alert(res.data.msg)
+            }
         })
     }
 }
@@ -117,32 +137,34 @@ function reducer(state = initState, action) {
         case 'changeGoods':
             return {
                 ...state,
-                goodsList:action.list
+                goodsList: action.list
             };
         case 'changeSort':
-            return{
-                ...state,
-                sortList:action.list
-            };
-        case 'changeSortGoods':
-            return{
-                ...state,
-                sortGoodsList:action.list
-            };
-        case 'getId':
             return {
                 ...state,
-                id:action.id
+                sortList: action.list
+            };
+        case 'changeSortDetail':
+            return {
+                ...state,
+                sortDetail: action.list
+            };
+        case 'changeGoodsDetail':
+            return {
+                ...state,
+                goodsDetail: action.obj
             }
+    
         default: return state
     }
 }
 
 // 导出数据
 export const bannerList = (state) => state.bannerList
-export const goodsList=(state)=>state.goodsList
-export const sortList =(state)=>state.sortList
-export const sortGoodsList =(state)=>state.sortGoodsList
+export const goodsList = (state) => state.goodsList
+export const sortList = (state) => state.sortList
+export const sortDetail = (state) => state.sortDetail
+export const goodsDetail = (state) => state.goodsDetail
 
 
 
