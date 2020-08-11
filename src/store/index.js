@@ -1,14 +1,18 @@
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import Alert from '../util/alert'
-import { requestBanner, requestGoods, requestGoodsInfo, requestGoodsCate, requestCateTree,addCart } from '../util/request'
+import { requestBanner, requestGoods, requestGoodsInfo, requestGoodsCate, requestCateTree, addCart, requestCartList,cartUpdate,cartDel} from '../util/request'
 /* 初始状态 */
 const initState = {
     bannerList: [],//轮播图列表
     goodsList: [],//商品列表
     sortList: [],//分类列表
     sortDetail: [],//分类商品
-    goodsDetail: {},
+    goodsDetail: {},//商品详情
+    user: sessionStorage.getItem("isLogin") ? JSON.parse(sessionStorage.getItem("isLogin")) : null,//用户信息
+    orderList: [],//购物车列表
+    isAll:false,//是否全选
+    isEdit:false,//是否编辑
 }
 
 /* dispatch */
@@ -46,6 +50,40 @@ const changeGoodsDetailAction = (obj) => {
     return {
         type: 'changeGoodsDetail',
         obj: obj
+    }
+}
+// 用户信息
+export const changeUserAction = (user) => {
+    return {
+        type: 'changeUser',
+        user
+    }
+}
+// 购物车列表
+const changeOrderListAction = (arr) => {
+    return {
+        type: 'changeOrderList',
+        list: arr
+    }
+}
+// 修改某一条数据的checked
+export const changeOneAction = (index) => {
+    return {
+        type: 'changeOne',
+        index
+    }
+}
+// 是否编辑
+export const changeIsEditAction=()=>{
+    console.log('243434')
+    return{
+        type:'changeEdit'
+    }
+}
+// 是否全选
+export const changeIsAllAction=()=>{
+    return{
+        type:'changeIsAll'
     }
 }
 
@@ -107,19 +145,52 @@ export const requestSortDetailList = (id) => {
 export const requestGoodsDetail = (id) => {
     return (dispatch) => {
         // 请求
-        requestGoodsInfo({id:id}).then(res => {
+        requestGoodsInfo({ id: id }).then(res => {
             dispatch(changeGoodsDetailAction(res.data.list[0]))
         })
     }
 }
 // 加入购物车
-export const requestAddCart=(obj,modal)=>{
-    return ()=>{
-        addCart(obj).then(res=>{
+export const requestAddCart = (obj) => {
+    return () => {
+        addCart(obj).then(res => {
+            if (res.data.code === 200) {
+                Alert(res.data.msg)
+            } else {
+                Alert(res.data.msg)
+            }
+        })
+    }
+}
+
+// 购物车列表
+export const requestOrderList = () => {
+    return (dispatch, getState) => {
+        // console.log(getState().user.uid)
+        requestCartList({ uid: getState().user.uid }).then(res => {
+            const list = res.data.list ? res.data.list : [];
+            list.forEach(item => {
+                item.checked = false
+            })
+            dispatch(changeOrderListAction(list))
+        })
+    }
+}
+// 点击+或-
+export const requestEditType=(data)=>{
+    return (dispatch)=>{
+        cartUpdate(data).then(res=>{
+            dispatch(requestOrderList())
+        })
+    }
+}
+// 删除
+export const requestDel=(id)=>{
+    return (dispatch)=>{
+        cartDel({id:id}).then(res=>{
             if(res.data.code===200){
-                Alert(res.data.msg)
-            }else{
-                Alert(res.data.msg)
+                Alert(res.data.msg);
+                dispatch(requestOrderList())
             }
         })
     }
@@ -129,32 +200,76 @@ export const requestAddCart=(obj,modal)=>{
 
 function reducer(state = initState, action) {
     switch (action.type) {
+        // 轮播图
         case 'changeBanner':
             return {
                 ...state,
                 bannerList: action.list
             };
+        // 商品列表
         case 'changeGoods':
             return {
                 ...state,
                 goodsList: action.list
             };
+        // 分类列表
         case 'changeSort':
             return {
                 ...state,
                 sortList: action.list
             };
+        // 分类详情
         case 'changeSortDetail':
             return {
                 ...state,
                 sortDetail: action.list
             };
+        // 商品详情
         case 'changeGoodsDetail':
             return {
                 ...state,
                 goodsDetail: action.obj
+            };
+        // 用户信息
+        case 'changeUser':
+            return {
+                ...state,
+                user: action.user
+            };
+        // 购物车列表
+        case 'changeOrderList':
+            return {
+                ...state,
+                orderList: action.list
+            };
+            // 修改某一条数据的checked
+        case 'changeOne':
+            console.log('2323334')
+            const {list}=state;
+            list[action.index].checked=!list[action.index].checked;
+            return{
+                ...state,
+                list :[...list],
+                isAll:list.every(item=>item.check)
+
+            };
+            // 是否编辑
+        case 'changeEdit':
+            return{
+                ...state,
+                isEdit:!state.isEdit,
             }
-    
+            // 是否全选
+        case 'changeIsAll':
+            return{
+                ...state,
+                isAll:!state.isAll,
+                orderList:state.orderList.map(item=>{
+                    item.checked=!state.isAll;
+                    return item
+                })
+            }
+
         default: return state
     }
 }
@@ -165,6 +280,14 @@ export const goodsList = (state) => state.goodsList
 export const sortList = (state) => state.sortList
 export const sortDetail = (state) => state.sortDetail
 export const goodsDetail = (state) => state.goodsDetail
+export const getUser = (state) => state.user
+export const orderList = (state) => state.orderList
+export const isEdit = (state) => state.isEdit
+export const isAll = (state) => state.isAll
+export const getAllPrice=state=>{
+    const {orderList}=state
+    return orderList.reduce((val,item)=>item.checked?val + item.price * item.num:val,0)
+}
 
 
 

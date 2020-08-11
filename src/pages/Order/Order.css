@@ -1,9 +1,15 @@
 .order .am-navbar{
     background: #FF9900;
 }
+.order{
+    width: 100%;
+    overflow: hidden;
+    background: #fff;
+}
 /* 内容 */
 .order .content{
-width: 100vw;
+/* width: 100vw; */
+margin-bottom: 2.1rem;
 }
 .order .content .con h3{
 line-height: 1rem;
@@ -14,6 +20,7 @@ color: #999;
 }
 .order .content .con .flex{
     display: flex;
+    width: 8.22rem;
 }
 /* 左边 */
 .order .content .con .flex .left{
@@ -35,7 +42,7 @@ color: #999;
 .order .content .con .flex .right span{
     display: block;
     text-align: right;
-    padding-right: .4rem;
+    margin-right:.4rem;
 }
 
 .order .content .con .flex .right .btn button,.order .content .con .flex .right .btn i{
@@ -47,4 +54,67 @@ color: #999;
 }
 .order .content .con .flex .right p{
     line-height: .6rem;
+}
+.order .content .con .del{
+    /* flex: 1; */
+    /* display: inline-block; */
+    width: 1rem;
+    background: #ff9900;
+    padding: 0 .15rem;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+.order .content .con .delshow{
+margin-right: 1rem;
+}
+.order footer{
+    width: 100vw;
+    height: 1rem;
+    position: fixed;
+    left: 0;
+    bottom: 1rem;
+    border-top: 1px solid #ccc;
+    display: flex;
+    overflow: hidden;
+    background: #fff;
+}
+.order footer img{
+    display: block;
+    margin-bottom: .05rem;
+    margin-left: .1rem;
+}
+.order footer .check,.order footer .edit,.order footer .totalP {
+    text-align: center;
+    padding: .1rem .3rem;
+}
+.order footer .totalP{
+    text-align: left;
+    width: 40%;
+    padding: .1rem 0;
+}
+.order footer .totalP p{
+margin-top: .1rem;
+}
+.order footer .totalP span{
+    font-size: .24rem;
+    color: #999;
+}
+.order footer .total{
+    flex: 1;
+    float: right;
+    background: #ff9900;
+    color: #fff;
+
+}
+.order .shop{
+    position: fixed;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+}
+.order .shop p span{
+    display: block;
+    margin-top: .2rem;
 }

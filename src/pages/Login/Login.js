@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { NavBar } from 'antd-mobile';
 import {requestLogin} from '../../util/request'
 import {Link,withRouter} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {changeUserAction} from '../../store'
+import Alert from '../../util/alert'
 // 样式
 import './Login.css'
 class Login extends Component {
@@ -28,11 +31,13 @@ class Login extends Component {
         // 发起请求
         requestLogin(this.state.user).then(res=>{
                 if(res.data.code===200){
+                    Alert(res.data.msg)
                     // 设置标记
+                    this.props.getUser(res.data.list)
                     sessionStorage.setItem('isLogin',JSON.stringify(res.data.list))
                     this.props.history.push('/index')
                 }else{
-                    alert(res.data.msg)
+                    Alert(res.data.msg)
                 }
         })
     }
@@ -59,5 +64,16 @@ class Login extends Component {
         )
     }
 }
+const mapStateToProps=(state)=>{
+    console.log(state)
+    return{
 
-export default withRouter(Login)
+    }
+}
+const mapDispatchToProps=(dispatch)=>{
+    return{
+        getUser:(user)=>dispatch(changeUserAction(user))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(Login))
