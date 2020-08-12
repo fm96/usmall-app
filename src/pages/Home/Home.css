@@ -31,6 +31,8 @@
 .index .am-wingblank{
 width: 100%;
 margin: 0 !important;
+margin-top: 1.2rem !important;
+touch-action: none;
 }
 /* 列表导航 */
 .index .list-nav{

@@ -6,7 +6,7 @@ import filterPrice from '../../filters/Filter'
 import querystring from 'querystring'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { sortDetail, requestSortDetailList } from '../../store'
+import { sortDetail, requestSortDetailList, sortList } from '../../store'
 class SortDetail extends Component {
     constructor() {
         super();
@@ -31,7 +31,8 @@ class SortDetail extends Component {
     }
   
     render() {
-        const { sortDetail } = this.props
+        let { sortDetail } = this.props
+        if(sortDetail===null)sortDetail=[]
         return (
             <div className='sortdetail'>
                 {/* 头部导航 */}

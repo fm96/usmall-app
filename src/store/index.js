@@ -1,7 +1,8 @@
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
+import { Modal } from 'antd-mobile';
 import Alert from '../util/alert'
-import { requestBanner, requestGoods, requestGoodsInfo, requestGoodsCate, requestCateTree, addCart, requestCartList,cartUpdate,cartDel} from '../util/request'
+import { requestBanner, requestGoods, requestGoodsInfo, requestGoodsCate, requestCateTree, addCart, requestCartList, cartUpdate, cartDel } from '../util/request'
 /* 初始状态 */
 const initState = {
     bannerList: [],//轮播图列表
@@ -11,8 +12,8 @@ const initState = {
     goodsDetail: {},//商品详情
     user: sessionStorage.getItem("isLogin") ? JSON.parse(sessionStorage.getItem("isLogin")) : null,//用户信息
     orderList: [],//购物车列表
-    isAll:false,//是否全选
-    isEdit:false,//是否编辑
+    isAll: false,//是否全选
+    isEdit: false,//是否编辑
 }
 
 /* dispatch */
@@ -74,16 +75,16 @@ export const changeOneAction = (index) => {
     }
 }
 // 是否编辑
-export const changeIsEditAction=()=>{
+export const changeIsEditAction = () => {
     console.log('243434')
-    return{
-        type:'changeEdit'
+    return {
+        type: 'changeEdit'
     }
 }
 // 是否全选
-export const changeIsAllAction=()=>{
-    return{
-        type:'changeIsAll'
+export const changeIsAllAction = () => {
+    return {
+        type: 'changeIsAll'
     }
 }
 
@@ -177,22 +178,32 @@ export const requestOrderList = () => {
     }
 }
 // 点击+或-
-export const requestEditType=(data)=>{
-    return (dispatch)=>{
-        cartUpdate(data).then(res=>{
+export const requestEditType = (data) => {
+    return (dispatch) => {
+        cartUpdate(data).then(res => {
             dispatch(requestOrderList())
         })
     }
 }
 // 删除
-export const requestDel=(id)=>{
-    return (dispatch)=>{
-        cartDel({id:id}).then(res=>{
-            if(res.data.code===200){
-                Alert(res.data.msg);
-                dispatch(requestOrderList())
-            }
-        })
+
+const alert = Modal.alert;
+export const requestDel = (id) => {
+
+    return (dispatch) => {
+        const del=alert('', '你确定要删除吗？', [
+            { text: '取消', onPress: () => console.log('cancel'), style: 'default' },
+            {
+                text: '确定', onPress: () => cartDel({ id: id }).then(res => {
+                    if (res.data.code === 200) {
+                        Alert(res.data.msg);
+                        del.close();//关闭弹框
+                        dispatch(requestOrderList());
+                    }
+                })
+            },
+        ])
+
     }
 }
 
@@ -242,30 +253,29 @@ function reducer(state = initState, action) {
                 ...state,
                 orderList: action.list
             };
-            // 修改某一条数据的checked
+        // 修改某一条数据的checked
         case 'changeOne':
-            console.log('2323334')
-            const {list}=state;
-            list[action.index].checked=!list[action.index].checked;
-            return{
+            const { orderList } = state;
+            orderList[action.index].checked = !orderList[action.index].checked;
+            return {
                 ...state,
-                list :[...list],
-                isAll:list.every(item=>item.check)
+                orderList: [...orderList],
+                isAll: orderList.every(item => item.checked)
 
             };
-            // 是否编辑
+        // 是否编辑
         case 'changeEdit':
-            return{
+            return {
                 ...state,
-                isEdit:!state.isEdit,
+                isEdit: !state.isEdit,
             }
-            // 是否全选
+        // 是否全选
         case 'changeIsAll':
-            return{
+            return {
                 ...state,
-                isAll:!state.isAll,
-                orderList:state.orderList.map(item=>{
-                    item.checked=!state.isAll;
+                isAll: !state.isAll,
+                orderList: state.orderList.map(item => {
+                    item.checked = !state.isAll;
                     return item
                 })
             }
@@ -284,9 +294,9 @@ export const getUser = (state) => state.user
 export const orderList = (state) => state.orderList
 export const isEdit = (state) => state.isEdit
 export const isAll = (state) => state.isAll
-export const getAllPrice=state=>{
-    const {orderList}=state
-    return orderList.reduce((val,item)=>item.checked?val + item.price * item.num:val,0)
+export const getAllPrice = state => {
+    const { orderList } = state
+    return orderList.reduce((val, item) => item.checked ? val + item.price * item.num : val, 0)
 }
 
 
